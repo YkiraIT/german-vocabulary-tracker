@@ -9,7 +9,20 @@ Started as a simple word list — evolved into a full desktop application.
 
 ## 📸 Screenshots
 
-> *(Screenshots coming soon)*
+**Main view — Light mode**
+![Main view](screenshots/ana_sayfa.png)
+
+**Dark mode**
+![Dark mode](screenshots/dark_mode.png)
+
+**Sentence journal** — write example sentences for words you're learning
+![Sentence journal](screenshots/cumle_gunlugu.png)
+
+**Statistics panel** — track progress by category with streak counter
+![Statistics](screenshots/istatistikler.png)
+
+**Multiple choice quiz**
+![Quiz](screenshots/quiz.png)
 
 ---
 
