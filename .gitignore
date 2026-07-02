@@ -1,0 +1,4 @@
+node_modules/
+veri.json
+.env
+*.bat
