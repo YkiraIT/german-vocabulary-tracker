@@ -1197,6 +1197,7 @@
             animation: modalIn 0.18s ease;
         }
         .hamburger-dropdown.open { display: block; }
+        .hd-sep { height: 1px; background: var(--border); margin: 6px 0; }
 
         .hd-title {
             padding: 12px 16px 8px;
@@ -1309,16 +1310,17 @@
 <body>
 
 <nav class="navbar">
-    <div class="navbar-brand">
+    <div class="navbar-brand" onclick="openTitleEdit()" title="Başlığı düzenle" style="cursor:pointer;">
         <span class="flag">🇩🇪</span>
-        Yusuf'un Almanca Kelimeleri
+        <span id="site-title">Yusuf'un Almanca Kelimeleri</span>
+        <span style="font-size:0.65em;opacity:0.4;margin-left:4px;">✏️</span>
     </div>
     <div class="stats-row">
-        <div class="stat-pill total"><span class="dot"></span>Toplam <b id="total-count">0</b></div>
-        <div class="stat-pill known"><span class="dot"></span>Biliyorum <b id="known-count">0</b></div>
-        <div class="stat-pill unknown"><span class="dot"></span>Bilmiyorum <b id="not-known-count">0</b></div>
-        <div class="stat-pill learning"><span class="dot"></span>Öğreniliyor <b id="learning-count">0</b></div>
-        <div class="stat-pill left"><span class="dot"></span>Kalan <b id="remaining-count">0</b></div>
+        <div class="stat-pill total"><span class="dot"></span><span data-i18n="total">Toplam</span> <b id="total-count">0</b></div>
+        <div class="stat-pill known"><span class="dot"></span><span data-i18n="known">Biliyorum</span> <b id="known-count">0</b></div>
+        <div class="stat-pill unknown"><span class="dot"></span><span data-i18n="notKnown">Bilmiyorum</span> <b id="not-known-count">0</b></div>
+        <div class="stat-pill learning"><span class="dot"></span><span data-i18n="learning">Öğreniliyor</span> <b id="learning-count">0</b></div>
+        <div class="stat-pill left"><span class="dot"></span><span data-i18n="remaining">Kalan</span> <b id="remaining-count">0</b></div>
     </div>
     <div class="search-wrap">
         <span class="search-icon">🔍</span>
@@ -1328,14 +1330,33 @@
     <div class="hamburger-wrap">
         <button class="hamburger-btn" onclick="toggleHamburger()" id="hamburger-btn" title="Menü">☰</button>
         <div class="hamburger-dropdown" id="hamburger-dropdown">
-            <div class="hd-title">Dışa Aktar</div>
+            <div class="hd-title" data-i18n="export">Dışa Aktar</div>
             <button class="hd-item" onclick="openExport('de'); closeHamburger()">
                 <span class="hd-icon">🇩🇪</span>
-                <span>Sadece Almanca</span>
+                <span data-i18n="exportDe">Sadece Almanca</span>
             </button>
             <button class="hd-item" onclick="openExport('both'); closeHamburger()">
                 <span class="hd-icon">📋</span>
-                <span>Almanca + Türkçe</span>
+                <span data-i18n="exportBoth">Almanca + Türkçe</span>
+            </button>
+            <div class="hd-sep"></div>
+            <div class="hd-title" data-i18n="language">Dil / Language</div>
+            <button class="hd-item" onclick="setLang('tr'); closeHamburger()">
+                <span class="hd-icon">🇹🇷</span>
+                <span>Türkçe</span>
+            </button>
+            <button class="hd-item" onclick="setLang('en'); closeHamburger()">
+                <span class="hd-icon">🇬🇧</span>
+                <span>English</span>
+            </button>
+            <button class="hd-item" onclick="setLang('de'); closeHamburger()">
+                <span class="hd-icon">🇩🇪</span>
+                <span>Deutsch</span>
+            </button>
+            <div class="hd-sep"></div>
+            <button class="hd-item" style="color:var(--danger);" onclick="openDeleteAllModal(); closeHamburger()">
+                <span class="hd-icon">🗑</span>
+                <span data-i18n="deleteAllWords">Tüm Kelimeleri Sil</span>
             </button>
         </div>
     </div>
@@ -1352,17 +1373,17 @@
             <p class="page-subtitle">Goethe / Telc A1 Müfredatı + Kişisel Eklemeler</p>
         </div>
         <div class="controls">
-            <button class="btn" id="filter-all" onclick="setFilter('all')">Tümü</button>
-            <button class="btn" id="filter-unseen" onclick="setFilter('unseen')">Görülmeyenler</button>
-            <button class="btn" id="filter-known" onclick="setFilter('known')">Bildiklerim ✓</button>
-            <button class="btn" id="filter-unknown" onclick="setFilter('not-known')">Bilmediklerim ✗</button>
-            <button class="btn" id="filter-learning" onclick="setFilter('learning')" style="border-color:#f59e0b;color:#f59e0b;">Öğreniliyor ◐</button>
-            <button class="btn btn-add-word" onclick="openAddWordModal()">➕ Kelime Ekle</button>
-            <button class="btn" onclick="openRandomFilter()">🎲 Rastgele</button>
-            <button class="btn" onclick="openQuizSetup()">📝 Test</button>
-            <button class="btn" onclick="toggleStats()">📊 İstatistik</button>
-            <button class="btn" onclick="toggleJournal()">📓 Günlük</button>
-            <button class="btn btn-reset" onclick="resetAll()">Sıfırla</button>
+            <button class="btn" id="filter-all" onclick="setFilter('all')" data-i18n="filterAll">Tümü</button>
+            <button class="btn" id="filter-unseen" onclick="setFilter('unseen')" data-i18n="filterUnseen">Görülmeyenler</button>
+            <button class="btn" id="filter-known" onclick="setFilter('known')" data-i18n="filterKnown">Bildiklerim ✓</button>
+            <button class="btn" id="filter-unknown" onclick="setFilter('not-known')" data-i18n="filterUnknown">Bilmediklerim ✗</button>
+            <button class="btn" id="filter-learning" onclick="setFilter('learning')" style="border-color:#f59e0b;color:#f59e0b;" data-i18n="filterLearning">Öğreniliyor ◐</button>
+            <button class="btn btn-add-word" onclick="openAddWordModal()" data-i18n="addWord">➕ Kelime Ekle</button>
+            <button class="btn" onclick="openRandomFilter()" data-i18n="random">🎲 Rastgele</button>
+            <button class="btn" onclick="openQuizSetup()" data-i18n="quiz">📝 Test</button>
+            <button class="btn" onclick="toggleStats()" data-i18n="stats">📊 İstatistik</button>
+            <button class="btn" onclick="toggleJournal()" data-i18n="journal">📓 Günlük</button>
+            <button class="btn btn-reset" onclick="resetAll()" data-i18n="reset">Sıfırla</button>
         </div>
     </div>
 
@@ -1868,6 +1889,7 @@ async function initQuiz() {
     applyCategoryOverrides();
 
     recordStudyDay();
+    applyLang();
 }
 
 function toggleWordState(id) {
@@ -1987,7 +2009,9 @@ function updateSectionVisibility() {
 }
 
 function resetAll() {
-    if (!confirm('Tüm işaretlemeler sıfırlansın mı?')) return;
+    const L = LANGS[currentLang] || LANGS['tr'];
+    const confirmMsg = currentLang === 'en' ? 'Reset all word statuses?' : currentLang === 'de' ? 'Alle Wortmarkierungen zurücksetzen?' : 'Tüm işaretlemeler sıfırlansın mı?';
+    if (!confirm(confirmMsg)) return;
     document.querySelectorAll('.word-card').forEach(card => {
         const id = card.id;
         states[id] = 'unseen';
@@ -1998,6 +2022,7 @@ function resetAll() {
     });
     updateScoreboard();
     setFilter('all');
+    saveAllData();
 }
 
 // ── SESLİ OKUMA (TTS) ──
@@ -2700,7 +2725,7 @@ document.addEventListener('keydown', e => {
 
 
 // ── GROQ SOHBET ──
-const GROQ_API_KEY = '';
+const GROQ_API_KEY = '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';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 let chatHistory = [
     { role: 'system', content: 'Sen Yusuf adlı bir Türk öğrencinin Almanca öğrenmesine yardımcı olan bir dil asistanısın. Sorulara kısa, anlaşılır ve yardımcı cevaplar ver. Türkçe yaz ama Almanca örnekler ekle.' }
@@ -3083,6 +3108,175 @@ function openRandomFromList(ids) {
 
 
 // ── HAMBURGER MENÜ ──
+// ── DİL DESTEĞİ ──
+const LANGS = {
+    tr: {
+        export: 'Dışa Aktar', exportDe: 'Sadece Almanca', exportBoth: 'Almanca + Türkçe',
+        language: 'Dil',
+        total: 'Toplam', known: 'Biliyorum', notKnown: 'Bilmiyorum',
+        learning: 'Öğreniliyor', remaining: 'Kalan',
+        filterAll: 'Tümü', filterUnseen: 'Görülmeyenler', filterKnown: 'Bildiklerim ✓',
+        filterUnknown: 'Bilmediklerim ✗', filterLearning: 'Öğreniliyor ◐',
+        addWord: '➕ Kelime Ekle', random: '🎲 Rastgele', quiz: '📝 Test',
+        stats: '📊 İstatistik', journal: '📓 Günlük', reset: 'Sıfırla',
+        searchPlaceholder: 'Kelime ara…',
+        deleteAllWords: 'Tüm Kelimeleri Sil',
+        editTitleHeader: 'Başlığı Düzenle',
+        cancel: 'İptal', save: 'Kaydet',
+        deleteAllHeader: '⚠️ Tüm Kelimeleri Sil',
+        deleteAllDesc: 'Bu işlem geri alınamaz. Onaylamak için aşağıya yazın:',
+        deleteConfirmBtn: 'Evet, Sil',
+        deleteConfirmWord: 'onaylıyorum',
+        titleConfirmMsg: 'Başlığı değiştirmek istediğinize emin misiniz?',
+    },
+    en: {
+        export: 'Export', exportDe: 'German Only', exportBoth: 'German + Turkish',
+        language: 'Language',
+        total: 'Total', known: 'I Know', notKnown: "Don't Know",
+        learning: 'Learning', remaining: 'Remaining',
+        filterAll: 'All', filterUnseen: 'Unseen', filterKnown: 'I Know ✓',
+        filterUnknown: "Don't Know ✗", filterLearning: 'Learning ◐',
+        addWord: '➕ Add Word', random: '🎲 Random', quiz: '📝 Quiz',
+        stats: '📊 Statistics', journal: '📓 Journal', reset: 'Reset',
+        searchPlaceholder: 'Search word…',
+        deleteAllWords: 'Delete All Words',
+        editTitleHeader: 'Edit Title',
+        cancel: 'Cancel', save: 'Save',
+        deleteAllHeader: '⚠️ Delete All Words',
+        deleteAllDesc: 'This action cannot be undone. Type below to confirm:',
+        deleteConfirmBtn: 'Yes, Delete',
+        deleteConfirmWord: 'confirm',
+        titleConfirmMsg: 'Are you sure you want to change the title?',
+    },
+    de: {
+        export: 'Exportieren', exportDe: 'Nur Deutsch', exportBoth: 'Deutsch + Türkisch',
+        language: 'Sprache',
+        total: 'Gesamt', known: 'Ich weiß', notKnown: 'Weiß nicht',
+        learning: 'Lerne noch', remaining: 'Verbleibend',
+        filterAll: 'Alle', filterUnseen: 'Ungesehen', filterKnown: 'Ich weiß ✓',
+        filterUnknown: 'Weiß nicht ✗', filterLearning: 'Lerne noch ◐',
+        addWord: '➕ Wort hinzufügen', random: '🎲 Zufällig', quiz: '📝 Quiz',
+        stats: '📊 Statistiken', journal: '📓 Tagebuch', reset: 'Zurücksetzen',
+        searchPlaceholder: 'Wort suchen…',
+        deleteAllWords: 'Alle Wörter löschen',
+        editTitleHeader: 'Titel bearbeiten',
+        cancel: 'Abbrechen', save: 'Speichern',
+        deleteAllHeader: '⚠️ Alle Wörter löschen',
+        deleteAllDesc: 'Diese Aktion kann nicht rückgängig gemacht werden. Tippe zur Bestätigung:',
+        deleteConfirmBtn: 'Ja, löschen',
+        deleteConfirmWord: 'bestätigen',
+        titleConfirmMsg: 'Möchten Sie den Titel wirklich ändern?',
+    }
+};
+
+let currentLang = localStorage.getItem('yusufk-lang') || 'tr';
+
+function setLang(lang) {
+    if (!LANGS[lang]) return;
+    currentLang = lang;
+    localStorage.setItem('yusufk-lang', lang);
+    applyLang();
+}
+
+function applyLang() {
+    const L = LANGS[currentLang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (L[key] !== undefined) el.textContent = L[key];
+    });
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.placeholder = L.searchPlaceholder;
+    // Başlık HTML'de kayıtlıysa göster
+    const savedTitle = localStorage.getItem('yusufk-site-title');
+    if (savedTitle) document.getElementById('site-title').textContent = savedTitle;
+}
+
+// ── BAŞLIK DÜZENLEME ──
+function openTitleEdit() {
+    const current = document.getElementById('site-title').textContent;
+    document.getElementById('title-edit-input').value = current;
+    document.getElementById('title-edit-modal').classList.add('open');
+    setTimeout(() => document.getElementById('title-edit-input').focus(), 100);
+}
+
+function closeTitleEdit() {
+    document.getElementById('title-edit-modal').classList.remove('open');
+}
+
+function confirmTitleEdit() {
+    const L = LANGS[currentLang];
+    const newTitle = document.getElementById('title-edit-input').value.trim();
+    if (!newTitle) return;
+    if (!confirm(L.titleConfirmMsg)) return;
+    document.getElementById('site-title').textContent = newTitle;
+    document.title = newTitle;
+    localStorage.setItem('yusufk-site-title', newTitle);
+    closeTitleEdit();
+}
+
+// ── TÜM KELİMELERİ SİL ──
+function openDeleteAllModal() {
+    const L = LANGS[currentLang];
+    document.getElementById('delete-confirm-word').textContent = '"' + L.deleteConfirmWord + '"';
+    document.getElementById('delete-confirm-input').value = '';
+    document.getElementById('delete-all-confirm-btn').disabled = true;
+    document.getElementById('delete-all-confirm-btn').style.opacity = '0.4';
+    document.getElementById('delete-all-confirm-btn').style.cursor = 'not-allowed';
+    document.getElementById('delete-all-modal').classList.add('open');
+
+    document.getElementById('delete-confirm-input').oninput = function() {
+        const match = this.value.trim().toLowerCase() === L.deleteConfirmWord.toLowerCase();
+        const btn = document.getElementById('delete-all-confirm-btn');
+        btn.disabled = !match;
+        btn.style.opacity = match ? '1' : '0.4';
+        btn.style.cursor = match ? 'pointer' : 'not-allowed';
+    };
+}
+
+function closeDeleteAllModal() {
+    document.getElementById('delete-all-modal').classList.remove('open');
+}
+
+function executeDeleteAll() {
+    const L = LANGS[currentLang];
+    const input = document.getElementById('delete-confirm-input').value.trim().toLowerCase();
+    if (input !== L.deleteConfirmWord.toLowerCase()) return;
+
+    // customWords'ü tamamen sil
+    customWords = {};
+
+    // Tüm state'leri sıfırla (hem sabit hem custom)
+    for (const key of Object.keys(states)) {
+        states[key] = 'unseen';
+    }
+
+    // DOM'dan custom kartları kaldır, sabit kartları sıfırla
+    document.querySelectorAll('.word-card').forEach(card => {
+        if (card.id.startsWith('custom-')) {
+            const section = card.closest('.category-section');
+            card.remove();
+            if (section) {
+                const remaining = section.querySelectorAll('.word-card').length;
+                const countEl = section.querySelector('.category-count');
+                if (countEl) countEl.textContent = remaining + ' kelime';
+                if (remaining === 0) section.remove();
+            }
+        } else {
+            card.className = 'word-card unseen';
+            card.setAttribute('data-state', 'unseen');
+            card.querySelector('.card-status').textContent = '';
+            card.style.display = '';
+        }
+    });
+
+    totalWords = document.querySelectorAll('.word-card').length;
+    document.getElementById('total-count').textContent = totalWords;
+    updateScoreboard();
+    setFilter('all');
+    saveAllData();
+    closeDeleteAllModal();
+}
+
 function toggleHamburger() {
     document.getElementById('hamburger-dropdown').classList.toggle('open');
 }
@@ -3333,6 +3527,33 @@ window.onload = initQuiz;
             <h3 style="font-family:'Lora',serif; font-size:1.3em; margin-bottom:6px;">Test Tamamlandı!</h3>
             <p id="quiz-result-text" style="color:var(--text-muted); margin-bottom:24px;"></p>
             <button class="random-filter-start-btn" onclick="document.getElementById('quiz-result-modal').classList.remove('open')">Kapat</button>
+        </div>
+    </div>
+
+    <!-- BAŞLIK DÜZENLEME MODALI -->
+    <div class="modal-overlay" id="title-edit-modal">
+        <div class="modal-box" style="max-width:420px;">
+            <button class="modal-close" onclick="closeTitleEdit()">&#x2715;</button>
+            <h3 style="font-family:'Lora',serif;margin-bottom:16px;" data-i18n="editTitleHeader">Başlığı Düzenle</h3>
+            <input id="title-edit-input" type="text" class="sentence-input" style="width:100%;box-sizing:border-box;" placeholder="Yeni başlık..." />
+            <div style="display:flex;gap:10px;margin-top:16px;">
+                <button class="random-filter-start-btn" style="background:var(--bg);border:1.5px solid var(--border);color:var(--text-primary);" onclick="closeTitleEdit()" data-i18n="cancel">İptal</button>
+                <button class="random-filter-start-btn" id="title-save-btn" onclick="confirmTitleEdit()" data-i18n="save">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TÜM KELİMELERİ SİL MODALI -->
+    <div class="modal-overlay" id="delete-all-modal">
+        <div class="modal-box" style="max-width:440px;">
+            <button class="modal-close" onclick="closeDeleteAllModal()">&#x2715;</button>
+            <h3 style="font-family:'Lora',serif;color:var(--danger);margin-bottom:8px;" data-i18n="deleteAllHeader">⚠️ Tüm Kelimeleri Sil</h3>
+            <p style="color:var(--text-muted);font-size:0.88em;margin-bottom:20px;" data-i18n="deleteAllDesc">Bu işlem geri alınamaz. Onaylamak için aşağıya <b id="delete-confirm-word" style="color:var(--danger);"></b> yazın.</p>
+            <input id="delete-confirm-input" type="text" class="sentence-input" style="width:100%;box-sizing:border-box;" />
+            <div style="display:flex;gap:10px;margin-top:16px;">
+                <button class="random-filter-start-btn" style="background:var(--bg);border:1.5px solid var(--border);color:var(--text-primary);" onclick="closeDeleteAllModal()" data-i18n="cancel">İptal</button>
+                <button class="random-filter-start-btn" id="delete-all-confirm-btn" style="background:var(--danger);opacity:0.4;cursor:not-allowed;" disabled onclick="executeDeleteAll()" data-i18n="deleteConfirmBtn">Evet, Sil</button>
+            </div>
         </div>
     </div>
 
