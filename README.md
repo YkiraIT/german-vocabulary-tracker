@@ -7,22 +7,33 @@ Started as a simple word list — evolved into a full desktop application.
 
 ---
 
-## 📸 Screenshots
+## 🚀 Getting Started
 
-**Main view — Light mode**
-![Main view](screenshots/ana_sayfa.png)
+```bash
+# Install dependencies
+npm install
 
-**Dark mode**
-![Dark mode](screenshots/dark_mode.png)
+# Run in browser mode (Node.js + Express)
+node main.js
+# Open http://localhost:3000/almanca-sitem.html
 
-**Sentence journal** — write example sentences for words you're learning
-![Sentence journal](screenshots/cumle_gunlugu.png)
+# Or run as desktop app (Electron)
+npm start
+```
 
-**Statistics panel** — track progress by category with streak counter
-![Statistics](screenshots/istatistikler.png)
+---
 
-**Multiple choice quiz**
-![Quiz](screenshots/quiz.png)
+## 📁 Project Structure
+
+```
+german-vocabulary-tracker/
+├── almanca-sitem.html   ← Main UI (all frontend + logic)
+├── main.js              ← Electron main process
+├── preload.js           ← Electron context bridge
+└── package.json         ← Dependencies
+```
+
+> `veri.json` (user data) is excluded from this repository via `.gitignore` — it contains personal word states, journal entries, and custom words.
 
 ---
 
@@ -58,43 +69,13 @@ Started as a simple word list — evolved into a full desktop application.
 
 ---
 
-## 📁 Project Structure
-
-```
-german-vocabulary-tracker/
-├── almanca-sitem.html   ← Main UI (all frontend + logic)
-├── main.js              ← Electron main process
-├── preload.js           ← Electron context bridge
-└── package.json         ← Dependencies
-```
-
-> `veri.json` (user data) is excluded from this repository via `.gitignore` — it contains personal word states, journal entries, and custom words.
-
----
-
-## 🚀 Getting Started
-
-```bash
-# Install dependencies
-npm install
-
-# Run in browser mode (Node.js + Express)
-node main.js
-# Open http://localhost:3000/almanca-sitem.html
-
-# Or run as desktop app (Electron)
-npm start
-```
-
----
-
 ## 🧠 How It Was Built
 
 This project grew organically over several weeks:
 
 1. **Started** as a static HTML word list with a search feature
 2. **Added** a Node.js + Express backend to persist data between sessions
-3. **Configured** pm2 to run the server automatically on startup
+3. **Configured** pm2 to run the server automatically on Windows boot
 4. **Migrated** to Electron to package it as a proper desktop application
 5. **Continuously added features** based on what I actually needed while studying
 
@@ -106,6 +87,25 @@ Every feature in this app exists because I ran into a real problem while learnin
 
 I'm preparing for an apprenticeship (*Ausbildung*) in **Fachinformatiker für Systemintegration** in Germany.  
 Learning German is part of that journey. Instead of using a generic app, I built my own — and in doing so, learned about servers, file systems, process management, desktop packaging, and API integration along the way.
+
+---
+
+## 📸 Screenshots
+
+**Main view — Light mode**
+![Main view](screenshots/ana_sayfa.png)
+
+**Dark mode**
+![Dark mode](screenshots/dark_mode.png)
+
+**Sentence journal** — write example sentences for words you're learning
+![Sentence journal](screenshots/cumle_gunlugu.png)
+
+**Statistics panel** — track progress by category with streak counter
+![Statistics](screenshots/istatistikler.png)
+
+**Multiple choice quiz**
+![Quiz](screenshots/quiz.png)
 
 ---
 
@@ -131,27 +131,18 @@ Learning German is part of that journey. Instead of using a generic app, I built
 - **Queue-based study mode** — filtered random mode now uses a shuffled queue; each word shown exactly once per session, auto-closes when done
 - **Multiple choice quiz** — new 📝 Test button; 4-option quiz with automatic status updates (wrong = Not Known, correct unseen = Learning)
 - **Statistics enhancements** — added Learning counter to navbar pills and stats panel; 🔥 streak counter; category progress bars
-- **Learning counter** — "Öğreniliyor / Learning" status now tracked and displayed across all panels
 - **Filter panel redesign** — random study filter rebuilt as a bottom drawer with scrollable category list
 
 ### v1.1 — June 2026
-- **Word state persistence fix** — critical bug fixed: word statuses (Known/Unknown/Learning) were being reset to Unseen on every page load
+- **Word state persistence fix** — critical bug fixed: word statuses were being reset to Unseen on every page load
 - **Category mismatch fix** — category numbering in `veri.json` was out of sync with the HTML word list; all categories remapped correctly
-- **pm2 auto-start** — server now starts automatically on Windows boot via pm2 startup
-- **Port migration** — moved from Electron IPC to Node.js + Express backend (port 3000) for more reliable data persistence
+- **pm2 auto-start** — server now starts automatically on Windows boot
 - **Broken character fix** — "Öğreniyorum" button displayed garbled unicode characters; corrected
 
 ### v1.0 — June 2026
 - Initial setup on new machine (migrated from previous system)
 - Node.js installation, npm dependencies, pm2 configuration
-- BAT file updated for correct Windows username
 - Base features: word list, status tracking, search, filter, dark mode, random word mode, sentence journal
-
----
-
-## 📅 Development Log
-
-See [DEVLOG.md](DEVLOG.md) for a detailed history of bugs fixed and features added.
 
 ---
 
